@@ -1,0 +1,989 @@
+[
+  {
+    "name": "Profiles",
+    "route": "/profiles",
+    "method": "POST",
+    "description": "Can scrape upto 100 profiles data in a go",
+    "request_body_example": "{\n\t\"links\": [\n\t\t\"http://www.linkedin.com/in/luke-sharp-b3838719a\",\n        \"http://www.linkedin.com/in/hollie-smith-96ab44b5\"]\n}",
+    "params": [
+      {
+        "name": "x-rapidapi-user",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "usama"
+      }
+    ]
+  },
+  {
+    "name": "Companies",
+    "route": "/companies",
+    "method": "POST",
+    "description": "Can scrape upto 100 companies data in a go",
+    "request_body_example": "{\n\t\"links\": [\n\t\t\"https://www.linkedin.com/company/huzzle-app/\",\n\t\t\"http://www.linkedin.com/company/aep-energy\"],\n\t\"count\": 1\n}",
+    "params": [
+      {
+        "name": "x-rapidapi-user",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "usama"
+      }
+    ]
+  },
+  {
+    "name": "Company Posts ( BETA )",
+    "route": "/company_posts",
+    "method": "POST",
+    "description": "Can scrape 100 posts of 50 linkedin companies",
+    "request_body_example": "{\n\t\"links\": [\n\t\t\"https://www.linkedin.com/company/huzzle-app/\",\n\t\t\"http://www.linkedin.com/company/aep-energy\"],\n\t\"count\": 1\n}",
+    "params": [
+      {
+        "name": "x-rapidapi-user",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "usama"
+      }
+    ]
+  },
+  {
+    "name": "Person Data",
+    "route": "/person",
+    "method": "POST",
+    "description": "Scarpes all data of a a person from linkedin",
+    "request_body_example": "{\"link\" : \"https://www.linkedin.com/in/ingmar-klein\"}",
+    "params": []
+  },
+  {
+    "name": "Person Data ( Using URN )",
+    "route": "/person_urn",
+    "method": "POST",
+    "description": "Scrapes all data from a person's page using his profile URN",
+    "request_body_example": "{\"link\" : \"https://www.linkedin.com/in/ACoAACeIPPkBUymOGNvgfbBL_uhKc32Hg_g_haU\"}",
+    "params": []
+  },
+  {
+    "name": "Person Updates",
+    "route": "/profile_updates",
+    "method": "GET",
+    "description": "Scrapes updates posted by a linkedin user. Scrapes 20 updates per page. Must pass paginationToken from page 1 to page 2,from page 2 to page 3,from page 3 to page 4 and so on to get accurate results",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "profile_url",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "http://www.linkedin.com/in/ingmar-klein"
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "paginationToken",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      }
+    ]
+  },
+  {
+    "name": "Person Skills",
+    "route": "/person_skills",
+    "method": "POST",
+    "description": "Scrapes all skills of a linkedin user",
+    "request_body_example": "{\"link\":\"https://www.linkedin.com/in/ingmar-klein\"}",
+    "params": []
+  },
+  {
+    "name": "Person comments from recent activity",
+    "route": "/comments_from_recent_activity",
+    "method": "GET",
+    "description": "Scrapes comments posted by a person as per his recent activity.",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "profile_url",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "http://www.linkedin.com/in/ingmar-klein"
+      },
+      {
+        "name": "paginationToken",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      }
+    ]
+  },
+  {
+    "name": "Search People With Filters",
+    "route": "/search_people_with_filters",
+    "method": "POST",
+    "description": "Search for people from linkedin using all filters as per linkedin",
+    "request_body_example": "{\n    \"keyword\" : \"ingmar\", \"page\" : 1, \"title_free_text\" : \"CEO\", \"company_free_text\" : \"Huzzle\", \"first_name\" : \"Ingmar\", \"last_name\" : \"Klein\", \"current_company_list\" : \"\", \"past_company_list\" : \"\", \"location_list\" : \"\", \"language_list\" : \"\", \"service_catagory_list\" : \"\", \"school_free_text\" : \"\", \"industry_list\" : \"\", \"school_list\" : \"\"\n}",
+    "params": []
+  },
+  {
+    "name": "Company Data",
+    "route": "/company",
+    "method": "POST",
+    "description": "Scrapes all data from a provided company url",
+    "request_body_example": "{\"link\" : \"https://www.linkedin.com/company/huzzle-app\"}",
+    "params": []
+  },
+  {
+    "name": "Company Updates",
+    "route": "/company_updates",
+    "method": "GET",
+    "description": "Scrapes updates of a given company",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "1"
+      },
+      {
+        "name": "company_url",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "https://www.linkedin.com/company/google"
+      }
+    ]
+  },
+  {
+    "name": "Company Jobs",
+    "route": "/company_jobs",
+    "method": "POST",
+    "description": "Scrapes jobs of a specific linkedin company",
+    "request_body_example": "{\n    \"company_url\" : \"https://www.linkedin.com/company/google\",\n    \"starts_from\" : 0,\n    \"count\" : 10\n}",
+    "params": []
+  },
+  {
+    "name": "Search Company With Filters",
+    "route": "/search_company_with_filters",
+    "method": "POST",
+    "description": "Search for compnaies as per linkedin seaech engine",
+    "request_body_example": "{\"keyword\" : \"G\", \"page\" : 1, \"company_size_list\" : \"A,D\", \"hasJobs\" : false, \"location_list\" : \"\", \"industry_list\" : \"\"}",
+    "params": []
+  },
+  {
+    "name": "Company Employee Count",
+    "route": "/company_employee_count_per_skill",
+    "method": "POST",
+    "description": "Special",
+    "request_body_example": "{\n\t\"keyword\": \"java\",\n\t\"companyUrl\": \"https://www.linkedin.com/company/google\"\n}",
+    "params": []
+  },
+  {
+    "name": "School Alumini Count",
+    "route": "/school_alumini_count_per_skill",
+    "method": "POST",
+    "description": "Returns alumini count of a school/university",
+    "request_body_example": "{\n\t\"keyword\": \"\",\n\t\"schoolUrl\": \"https://www.linkedin.com/school/abertay-university\",\n\t\"skillExplicits\": \"260\"\n}",
+    "params": []
+  },
+  {
+    "name": "Company Employee",
+    "route": "/company_employee",
+    "method": "GET",
+    "description": "Scrapes 12 people from a company ( Peopkle Tab )",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "companyId",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1441"
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "keywords",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      }
+    ]
+  },
+  {
+    "name": "Post",
+    "route": "/post",
+    "method": "POST",
+    "description": "Scrapes post data by a person/company using its linkedin url.",
+    "request_body_example": "{\n    \"link\" : \"https://www.linkedin.com/feed/update/urn:li:activity:7219434359085252608\"\n}",
+    "params": []
+  },
+  {
+    "name": "Post Reactions ( Reactions on a post/update )",
+    "route": "/post_reactions",
+    "method": "GET",
+    "description": "Data of the people who reacted to a particular post. Obtain reactionsUrn from \"Updates\" endpoints and pass that here to get reactions data.",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "reactionsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:activity:7187125138054610944"
+      }
+    ]
+  },
+  {
+    "name": "Post Comments ( comments on a post/update )",
+    "route": "/post_comments",
+    "method": "GET",
+    "description": "Scrapes all commenters data who commented below a post. Obtain \"commentsUrn\" from \"Company Updates\" or \"Profile Updates\" endpoints ( each post have a separte commentsUrn ) and pass that here to get commenters data ( 10 per page )",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "commentsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:fsd_socialDetail:(urn:li:activity:7184217964949258241,urn:li:activity:7184217964949258241,urn:li:highlightedReply:-)"
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      }
+    ]
+  },
+  {
+    "name": "Post Reposts ( Reposts of a post/update )",
+    "route": "/post_reposts",
+    "method": "GET",
+    "description": "Scrapes all Reposters data who reposted a post. Obtain \"repostsUrn\" from \"Company Updates\" or \"Profile Updates\" endpoints ( each post have a separte repostsUrn ) and pass that here to get reposters data ( 10 per page )",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "repostsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:activity:7184217964949258241"
+      }
+    ]
+  },
+  {
+    "name": "Search Posts ( with filters )",
+    "route": "/search_posts_with_filters",
+    "method": "GET",
+    "description": "Search for posts as per linkedin using all the avaible filters",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "sort_by",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "from_member",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "from_organization",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_job_title",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_company",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "Top 10"
+      },
+      {
+        "name": "content_type",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "mentions_organization",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_industry",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "mentions_member",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "1"
+      }
+    ]
+  },
+  {
+    "name": "Search Posts",
+    "route": "/search_posts",
+    "method": "POST",
+    "description": "Search posts as per linkeidin.com search engine ( with filters )",
+    "request_body_example": "{\n    \"page\" : 1,\n    \"query\" : \"Top 10\", \n    \"filters\": [\n    {\n        \"key\" : \"datePosted\", \n        \"values\" : \"past-week\"\n    }\n    ]\n}",
+    "params": []
+  },
+  {
+    "name": "Post Reactions ( Reactions on a post/update )",
+    "route": "/post_reactions",
+    "method": "GET",
+    "description": "Data of the people who reacted to a particular post. Obtain reactionsUrn from \"Updates\" endpoints and pass that here to get reactions data.",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "reactionsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:activity:7187125138054610944"
+      }
+    ]
+  },
+  {
+    "name": "Post Comments ( comments on a post/update )",
+    "route": "/post_comments",
+    "method": "GET",
+    "description": "Scrapes all commenters data who commented below a post. Obtain \"commentsUrn\" from \"Company Updates\" or \"Profile Updates\" endpoints ( each post have a separte commentsUrn ) and pass that here to get commenters data ( 10 per page )",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "commentsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:fsd_socialDetail:(urn:li:activity:7184217964949258241,urn:li:activity:7184217964949258241,urn:li:highlightedReply:-)"
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      }
+    ]
+  },
+  {
+    "name": "Post Reposts ( Reposts of a post/update )",
+    "route": "/post_reposts",
+    "method": "GET",
+    "description": "Scrapes all Reposters data who reposted a post. Obtain \"repostsUrn\" from \"Company Updates\" or \"Profile Updates\" endpoints ( each post have a separte repostsUrn ) and pass that here to get reposters data ( 10 per page )",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "repostsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:activity:7184217964949258241"
+      }
+    ]
+  },
+  {
+    "name": "Search Posts ( with filters )",
+    "route": "/search_posts_with_filters",
+    "method": "GET",
+    "description": "Search for posts as per linkedin using all the avaible filters",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "sort_by",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "from_member",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "from_organization",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_job_title",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_company",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "Top 10"
+      },
+      {
+        "name": "content_type",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "mentions_organization",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_industry",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "mentions_member",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "1"
+      }
+    ]
+  },
+  {
+    "name": "Search Posts",
+    "route": "/search_posts",
+    "method": "POST",
+    "description": "Search posts as per linkeidin.com search engine ( with filters )",
+    "request_body_example": "{\n    \"page\" : 1,\n    \"query\" : \"Top 10\", \n    \"filters\": [\n    {\n        \"key\" : \"datePosted\", \n        \"values\" : \"past-week\"\n    }\n    ]\n}",
+    "params": []
+  },
+  {
+    "name": "Search Jobs",
+    "route": "/search_jobs",
+    "method": "GET",
+    "description": "Search for jobs with filters as per linkedin. It returns basic details of each job. To get full data use Job Details endpoint",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "searchLocationId",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "Europe"
+      },
+      {
+        "name": "experience",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "postedAgo",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "locationIdsList",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "sortBy",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "titleIdsList",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "workplaceType",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "functionIdsList",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "industryIdsList",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "jobType",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "software engineer"
+      },
+      {
+        "name": "companyIdsList",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "easyApply",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      }
+    ]
+  },
+  {
+    "name": "Job Details",
+    "route": "/job_details",
+    "method": "GET",
+    "description": "Returns all data of a job posted at linkedin using jobPostingUrn ( obtained using Search Jobs Endpoint )",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "jobPostingUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "3887887137"
+      }
+    ]
+  },
+  {
+    "name": "Similar Profiles",
+    "route": "/similar_profiles",
+    "method": "GET",
+    "description": "Returns similar profiles to a given linkedin profile url",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "profileUrl",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "https://www.linkedin.com/in/ingmar-klein"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Location",
+    "route": "/suggestion_location",
+    "method": "GET",
+    "description": "Suggestions per query",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "Aus"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Company",
+    "route": "/suggestion_company",
+    "method": "GET",
+    "description": "Suggestions per query",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "App"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion School",
+    "route": "/suggestion_school",
+    "method": "GET",
+    "description": "Suggestions per query",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "Uni"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Industry",
+    "route": "/suggestion_industry",
+    "method": "GET",
+    "description": "Suggestions per query",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "Ad"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Service Catagory",
+    "route": "/suggestion_service_catagory",
+    "method": "GET",
+    "description": "Suggestions as per query",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "Ad"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Company Size",
+    "route": "/suggestion_company_size",
+    "method": "GET",
+    "description": "Suggestions for company size filter",
+    "request_body_example": null,
+    "params": []
+  },
+  {
+    "name": "Suggestion Language",
+    "route": "/suggestion_language",
+    "method": "GET",
+    "description": "Suggestions for language filter",
+    "request_body_example": null,
+    "params": []
+  },
+  {
+    "name": "Suggestion Geourns",
+    "route": "/search_geourns",
+    "method": "GET",
+    "description": "Suggestions per query",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "keyword",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "Aus"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Function",
+    "route": "/suggestion_function",
+    "method": "GET",
+    "description": "Gets suggestions for Job Function",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "A"
+      }
+    ]
+  },
+  {
+    "name": "Suggestion Person",
+    "route": "/suggestion_person",
+    "method": "GET",
+    "description": "Returns a list of people suggestion from linkedin.",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "Ingmar"
+      }
+    ]
+  },
+  {
+    "name": "Private Search Posts ( with filters )",
+    "route": "/original_search_posts_with_filters",
+    "method": "GET",
+    "description": "Search for posts as per linkedin using all the avaible filters",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "mentions_organization",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "mentions_member",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_job_title",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "from_organization",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "from_member",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "sort_by",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "author_industry",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "1"
+      },
+      {
+        "name": "query",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": "Top 10"
+      },
+      {
+        "name": "author_company",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      },
+      {
+        "name": "content_type",
+        "paramType": "STRING",
+        "condition": "OPTIONAL",
+        "sampleValue": ""
+      }
+    ]
+  },
+  {
+    "name": "Company Insights 2",
+    "route": "/private_company_insights_2",
+    "method": "GET",
+    "description": "Private endpoint to scrapes company insights",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "link",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "http://www.linkedin.com/company/google"
+      }
+    ]
+  },
+  {
+    "name": "Post Reposts Original",
+    "route": "/post_reposts_original",
+    "method": "GET",
+    "description": "Private",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "repostsUrn",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "urn:li:activity:7184217964949258241"
+      },
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      }
+    ]
+  },
+  {
+    "name": "Profile Updates Original",
+    "route": "/profile_updates_original",
+    "method": "GET",
+    "description": "Private",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "page",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      },
+      {
+        "name": "profile_url",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "http://www.linkedin.com/in/ingmar-klein"
+      }
+    ]
+  },
+  {
+    "name": "Person Data With All Experiences",
+    "route": "/person_data_with_experiences",
+    "method": "POST",
+    "description": "Scrapes all linkedin profile data alongwith all the experiences.",
+    "request_body_example": "{\n    \"link\" : \"https://www.linkedin.com/in/ingmar-klein\"\n}",
+    "params": []
+  },
+  {
+    "name": "Person Data With Open To Work Flag",
+    "route": "/person_data_with_open_to_work_flag",
+    "method": "POST",
+    "description": "Scrapes person data with open to work flag",
+    "request_body_example": "{\"link\" : \"https://www.linkedin.com/in/ingmar-klein\"}",
+    "params": []
+  },
+  {
+    "name": "Person Data With All Languages",
+    "route": "/person_data_with_languages",
+    "method": "POST",
+    "description": "Scrapers person data with all languages data",
+    "request_body_example": "{\n    \"link\" : \"https://www.linkedin.com/in/matiss-brunavs/\"\n}",
+    "params": []
+  },
+  {
+    "name": "Person Data With All Educations",
+    "route": "/person_data_with_educations",
+    "method": "POST",
+    "description": "Scrapers person data along with all the educations data.",
+    "request_body_example": "{\"link\" : \"https://www.linkedin.com/in/ingmar-klein\"}",
+    "params": []
+  },
+  {
+    "name": "Company Updates Original",
+    "route": "/company_updates_original",
+    "method": "GET",
+    "description": "Original data",
+    "request_body_example": null,
+    "params": [
+      {
+        "name": "company_url",
+        "paramType": "STRING",
+        "condition": "REQUIRED",
+        "sampleValue": "https://www.linkedin.com/company/google"
+      },
+      {
+        "name": "page",
+        "paramType": "NUMBER",
+        "condition": "REQUIRED",
+        "sampleValue": "1"
+      }
+    ]
+  },
+  {
+    "name": "All posts from a profile",
+    "route": "/profile_posts_all",
+    "method": "POST",
+    "description": "This endpoint scrapes all posts posted by a user at linkedin.com since joined.",
+    "request_body_example": "{\"link\": \"https://www.linkedin.com/in/ingmar-klein\"}",
+    "params": []
+  },
+  {
+    "name": "Private David",
+    "route": "/profiles_david",
+    "method": "POST",
+    "description": "Scrape 100 prifiles in a single API call",
+    "request_body_example": "{\"links\":[\n    \"http://www.linkedin.com/in/luke-sharp-b3838719a\",\n    \"http://www.linkedin.com/in/hollie-smith-96ab44b5\"]}",
+    "params": []
+  },
+  {
+    "name": "Private Skander",
+    "route": "/private_chtiouisk",
+    "method": "POST",
+    "description": "This is a private endpoint for our premium user",
+    "request_body_example": "{\"links\":[\n    \"http://www.linkedin.com/in/luke-sharp-b3838719a\",\n    \"http://www.linkedin.com/in/rodneydbainjr\"],\n    \"count\" : 5\n    }",
+    "params": []
+  }
+]
