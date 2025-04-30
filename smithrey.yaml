@@ -1,0 +1,28 @@
+name: linkedin-mcp-server
+description: LinkedIn API MCP Server
+
+# Configure the build process
+build:
+  dockerfile: Dockerfile
+
+# Configure the runtime environment
+runtime:
+  # Use stdio transport for MCP
+  transport: stdio
+  
+  # Command to start the MCP server
+  startCommand: mcp serve linkedin_api_tools:mcp
+  
+  # Environment variables for LinkedIn API credentials
+  env:
+    - name: LINKEDIN_API_KEY
+      secret: true
+    - name: LINKEDIN_API_HOST
+      secret: true
+    - name: LINKEDIN_API_USER
+      secret: true
+
+# MCP server metadata
+mcp:
+  name: LinkedInProfiler
+  description: LinkedIn API tools for profile and company data
