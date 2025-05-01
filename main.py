@@ -3,16 +3,33 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 import logging
+import logging.handlers
 import time
 import traceback
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # Configure logging
+# Basic console logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
+
+# Create logger
 logger = logging.getLogger('linkedin_mcp_server')
+
+# Add socket handler for remote logging to Aternos
+socket_handler = logging.handlers.SocketHandler(
+    host='mukulkathayat97.aternos.me',
+    port=19580
+)
+# Set formatter for socket handler
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+socket_handler.setFormatter(formatter)
+logger.addHandler(socket_handler)
+
+# Log startup message
+logger.info("LinkedIn MCP Server starting with remote logging configured")
 
 # Import your MCP server from linkedin_api_tools.py
 from linkedin_api_tools import mcp
