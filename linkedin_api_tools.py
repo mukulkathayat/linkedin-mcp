@@ -6,6 +6,7 @@ import os
 import urllib.parse
 import logging
 import traceback
+import time
 
 # Configure logging
 logging.basicConfig(
@@ -30,38 +31,125 @@ def make_api_request(method: str, endpoint: str, payload: Optional[str] = None, 
     Args:
         method: HTTP method (GET, POST, etc.)
         endpoint: API endpoint
-        payload: Request payload for POST requests
+        payload: Request payload (for POST, PUT, etc.)
         headers: Request headers
         
     Returns:
-        Response data as dictionary or error information
+        API response as a dictionary
     """
-    try:
-        conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
-        conn.request(method, endpoint, payload, headers)
-        response = conn.getresponse()
-        status = response.status
-        data = response.read()
-        conn.close()
-        
-        # Try to parse the response as JSON
+    MAX_RETRIES = 3
+    RETRY_DELAY = 2  # seconds
+    
+    # Ensure headers are set
+    if headers is None:
+        headers = {
+            "Content-Type": "application/json",
+            "x-rapidapi-host": LINKEDIN_API_HOST,
+            "x-rapidapi-key": LINKEDIN_API_KEY,
+            "x-rapidapi-user": LINKEDIN_API_USER
+        }
+    
+    # Log the request details (without sensitive info)
+    sanitized_headers = {k: v for k, v in headers.items() if k.lower() not in ['x-rapidapi-key', 'authorization']}
+    logger.info(f"API Request: {method} {endpoint}")
+    logger.debug(f"Headers: {sanitized_headers}")
+    if payload:
+        logger.debug(f"Payload: {payload[:200]}..." if len(payload) > 200 else f"Payload: {payload}")
+    
+    for attempt in range(MAX_RETRIES):
         try:
-            result = json.loads(data.decode("utf-8"))
-        except json.JSONDecodeError:
-            logger.error(f"Failed to decode JSON response from {endpoint}")
-            return {"error": "Invalid JSON response", "status": status, "raw_data": data.decode("utf-8")}
-        
-        # Check for error status codes
-        if status >= 400:
-            error_message = result.get("message", "Unknown error")
-            logger.error(f"API error for {endpoint}: {status} - {error_message}")
-            return {"error": error_message, "status": status, "details": result}
+            # Create connection
+            conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
             
-        return result
-    except Exception as e:
-        logger.error(f"Exception in API request to {endpoint}: {str(e)}")
-        logger.error(traceback.format_exc())
-        return {"error": str(e), "exception_type": type(e).__name__}
+            # Set timeout to prevent hanging requests
+            conn.timeout = 30
+            
+            # Make request
+            conn.request(method, endpoint, payload, headers)
+            
+            # Get response
+            res = conn.getresponse()
+            data = res.read().decode("utf-8")
+            
+            # Log response status
+            logger.info(f"API Response: {method} {endpoint} - Status: {res.status}")
+            
+            # Parse response
+            if data:
+                try:
+                    response_data = json.loads(data)
+                    
+                    # Log partial response for debugging
+                    if isinstance(response_data, dict):
+                        log_keys = list(response_data.keys())
+                        logger.debug(f"Response keys: {log_keys}")
+                    
+                    # Check for API errors in response
+                    if res.status >= 400:
+                        error_msg = response_data.get('message', 'Unknown API error')
+                        logger.error(f"API Error: {method} {endpoint} - Status: {res.status} - Error: {error_msg}")
+                        
+                        # Return error response
+                        return {
+                            "success": False,
+                            "status": res.status,
+                            "message": error_msg,
+                            "details": response_data
+                        }
+                    
+                    # Return successful response
+                    return {
+                        "success": True,
+                        "status": res.status,
+                        "data": response_data
+                    }
+                except json.JSONDecodeError as e:
+                    logger.error(f"JSON Decode Error: {method} {endpoint} - {str(e)}")
+                    logger.error(f"Raw response: {data[:200]}..." if len(data) > 200 else f"Raw response: {data}")
+                    
+                    # Return error response
+                    return {
+                        "success": False,
+                        "status": res.status,
+                        "message": "Failed to decode JSON response",
+                        "details": {"error": str(e), "raw_data": data[:1000] if len(data) > 1000 else data}
+                    }
+            else:
+                logger.warning(f"Empty response: {method} {endpoint}")
+                return {
+                    "success": False,
+                    "status": res.status,
+                    "message": "Empty response from API"
+                }
+                
+        except Exception as e:
+            logger.error(f"Request Error: {method} {endpoint} - {str(e)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            
+            # Check if we should retry
+            if attempt < MAX_RETRIES - 1:
+                retry_wait = RETRY_DELAY * (attempt + 1)
+                logger.info(f"Retrying in {retry_wait} seconds... (Attempt {attempt + 1}/{MAX_RETRIES})")
+                time.sleep(retry_wait)
+            else:
+                # Return error response after all retries failed
+                return {
+                    "success": False,
+                    "status": 500,
+                    "message": f"Request failed after {MAX_RETRIES} attempts",
+                    "details": {"error": str(e)}
+                }
+        finally:
+            # Close connection
+            if 'conn' in locals():
+                conn.close()
+    
+    # This should never be reached due to the return in the last retry attempt
+    return {
+        "success": False,
+        "status": 500,
+        "message": "Unexpected error in API request"
+    }
 
 # LinkedIn API headers
 LINKEDIN_HEADERS = {
