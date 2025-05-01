@@ -1,28 +1,29 @@
-name: linkedin-mcp-server
-description: LinkedIn API MCP Server
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
 
-# Configure the build process
-build:
-  dockerfile: Dockerfile
-
-# Configure the runtime environment
-runtime:
-  # Use stdio transport for MCP
-  transport: stdio
-  
-  # Command to start the MCP server
-  startCommand: mcp serve linkedin_api_tools:mcp
-  
-  # Environment variables for LinkedIn API credentials
-  env:
-    - name: LINKEDIN_API_KEY
-      secret: true
-    - name: LINKEDIN_API_HOST
-      secret: true
-    - name: LINKEDIN_API_USER
-      secret: true
-
-# MCP server metadata
-mcp:
-  name: LinkedInProfiler
-  description: LinkedIn API tools for profile and company data
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - linkedinApiKey
+      - linkedinApiHost
+      - linkedinApiUser
+    properties:
+      linkedinApiKey:
+        type: string
+        description: LinkedIn API Key
+      linkedinApiHost:
+        type: string
+        description: LinkedIn API Host
+      linkedinApiUser:
+        type: string
+        description: LinkedIn API User
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({command:'python', args:['linkedin_api_tools.py'], env:{LINKEDIN_API_KEY:config.linkedinApiKey,LINKEDIN_API_HOST:config.linkedinApiHost,LINKEDIN_API_USER:config.linkedinApiUser}})
+  exampleConfig:
+    linkedinApiKey: YOUR_API_KEY
+    linkedinApiHost: api.linkedin.com
+    linkedinApiUser: user123
