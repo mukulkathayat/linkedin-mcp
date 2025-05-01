@@ -3,6 +3,7 @@ from typing import List, Dict
 import http.client
 import json
 import os
+import urllib.parse
 
 # Create MCP server
 mcp = FastMCP("LinkedInProfiler")
@@ -307,8 +308,8 @@ def profile_updates(profile_url: str, page: int = 1, paginationToken: str = None
     if paginationToken:
         params["paginationToken"] = paginationToken
 
-    # Construct query string
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    # Construct query string with URL encoding
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     
     conn.request("GET", f"/profile_updates?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
@@ -333,8 +334,8 @@ def comments_from_recent_activity(profile_url: str, page: int = 1, paginationTok
     if paginationToken:
         params["paginationToken"] = paginationToken
         
-    # Construct query string
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    # Construct query string with URL encoding
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
 
     conn.request("GET", f"/comments_from_recent_activity?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
@@ -359,8 +360,8 @@ def company_updates(company_url: str, page: str = "1", paginationToken: str = No
     if paginationToken:
         params["paginationToken"] = paginationToken
         
-    # Construct query string
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    # Construct query string with URL encoding
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     
     conn.request("GET", f"/company_updates?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
@@ -426,7 +427,7 @@ def company_employee(company_id: str, page: int = 1) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"companyId": company_id, "page": page}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/company_employee?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -447,7 +448,7 @@ def post_reactions(reactions_urn: str, pagination_token: str = None) -> Dict:
     params = {"reactions_urn": reactions_urn}
     if pagination_token:
         params["pagination_token"] = pagination_token
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/post_reactions?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -468,7 +469,7 @@ def post_comments(comments_urn: str, pagination_token: str = None) -> Dict:
     params = {"comments_urn": comments_urn}
     if pagination_token:
         params["pagination_token"] = pagination_token
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/post_comments?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -489,7 +490,7 @@ def post_reposts(reposts_urn: str, pagination_token: str = None) -> Dict:
     params = {"reposts_urn": reposts_urn}
     if pagination_token:
         params["pagination_token"] = pagination_token
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/post_reposts?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -545,8 +546,8 @@ def search_posts_with_filters(query: str = None, sort_by: str = None, from_membe
     if page:
         params["page"] = page
         
-    # Convert params to query string
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    # Convert params to query string with URL encoding
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/search_posts_with_filters?{query_string}", headers=LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -610,8 +611,8 @@ def search_jobs(query: str, page: str = "1", searchLocationId: str = None, exper
     if easyApply:
         params["easyApply"] = easyApply
         
-    # Convert params to query string
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    # Convert params to query string with URL encoding
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/search_jobs?{query_string}", headers=LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -627,7 +628,7 @@ def job_details(job_id: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"jobId": job_id}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/job_details?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -643,7 +644,7 @@ def similar_profiles(profileUrl: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"profileUrl": profileUrl}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/similar_profiles?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -659,7 +660,7 @@ def suggestion_location(query: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"query": query}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_location?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -675,7 +676,7 @@ def suggestion_company(query: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"query": query}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_company?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -691,7 +692,7 @@ def suggestion_school(query: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"query": query}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_school?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -707,7 +708,7 @@ def suggestion_industry(query: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"query": query}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_industry?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -723,7 +724,7 @@ def suggestion_service_catagory(query: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"query": query}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_service_catagory?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -739,7 +740,7 @@ def suggestion_person(query: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"query": query}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_person?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -757,7 +758,7 @@ def search_geourns(keyword: str) -> Dict:
     """
     conn = http.client.HTTPSConnection(LINKEDIN_API_HOST)
     params = {"keyword": keyword}
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/search_geourns?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -775,7 +776,7 @@ def suggestion_function(query: str = None) -> Dict:
     params = {}
     if query:
         params["query"] = query
-    query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+    query_string = "&".join([f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items()])
     conn.request("GET", f"/suggestion_function?{query_string}", None, LINKEDIN_HEADERS)
     response = conn.getresponse()
     data = response.read()
@@ -898,27 +899,27 @@ def original_search_posts_with_filters(query: str = None, author_company: str = 
     # Build query parameters
     params_list = []
     if query:
-        params_list.append(f"query={query}")
+        params_list.append(f"query={urllib.parse.quote(str(query))}")
     if author_company:
-        params_list.append(f"author_company={author_company}")
+        params_list.append(f"author_company={urllib.parse.quote(str(author_company))}")
     if author_job_title:
-        params_list.append(f"author_job_title={author_job_title}")
+        params_list.append(f"author_job_title={urllib.parse.quote(str(author_job_title))}")
     if author_industry:
-        params_list.append(f"author_industry={author_industry}")
+        params_list.append(f"author_industry={urllib.parse.quote(str(author_industry))}")
     if from_member:
-        params_list.append(f"from_member={from_member}")
+        params_list.append(f"from_member={urllib.parse.quote(str(from_member))}")
     if from_organization:
-        params_list.append(f"from_organization={from_organization}")
+        params_list.append(f"from_organization={urllib.parse.quote(str(from_organization))}")
     if mentions_member:
-        params_list.append(f"mentions_member={mentions_member}")
+        params_list.append(f"mentions_member={urllib.parse.quote(str(mentions_member))}")
     if mentions_organization:
-        params_list.append(f"mentions_organization={mentions_organization}")
+        params_list.append(f"mentions_organization={urllib.parse.quote(str(mentions_organization))}")
     if content_type:
-        params_list.append(f"content_type={content_type}")
+        params_list.append(f"content_type={urllib.parse.quote(str(content_type))}")
     if sort_by:
-        params_list.append(f"sort_by={sort_by}")
+        params_list.append(f"sort_by={urllib.parse.quote(str(sort_by))}")
     if page:
-        params_list.append(f"page={page}")
+        params_list.append(f"page={urllib.parse.quote(str(page))}")
     
     params = "&".join(params_list)
     if params:
@@ -943,7 +944,7 @@ def private_company_insights_2(link: str) -> Dict:
     headers = LINKEDIN_HEADERS.copy()
     
     # Build query parameters
-    params = f"?link={link}"
+    params = f"?link={urllib.parse.quote(str(link))}"
     conn.request("GET", f"/private_company_insights_2{params}", headers=headers)
     response = conn.getresponse()
     data = response.read()
